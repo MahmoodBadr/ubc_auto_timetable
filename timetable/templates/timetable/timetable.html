@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Timetable</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+      text-align: center;
+    }
+    h1 {
+      color: #004c91;
+      margin-bottom: 30px;
+    }
+    .timetable-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 85%;
+      margin: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #004c91;
+      color: white;
+    }
+    .button-container {
+      margin-top: 30px;
+    }
+    button {
+      padding: 10px 18px;
+      margin: 5px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+      background-color: #0078D7;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #004c91;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <!-- Libraries for download functionality -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+  <h1>Your Auto-Generated Timetable</h1>
+
+  <div id="timetable" class="timetable-container">
+    {{ table|safe }}
+  </div>
+
+  <div class="button-container">
+    <button onclick="downloadPDF()">Download as PDF</button>
+    <button onclick="downloadImage()">Download as Image</button>
+  </div>
+
+  <a href="/">Upload another file</a>
+
+  <script>
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const timetable = document.getElementById("timetable");
+      const canvas = await html2canvas(timetable);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("l", "mm", "a4");
+      const width = pdf.internal.pageSize.getWidth();
+      const height = (canvas.height * width) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, width, height);
+      pdf.save("timetable.pdf");
+    }
+
+    async function downloadImage() {
+      const timetable = document.getElementById("timetable");
+      const canvas = await html2canvas(timetable);
+      const link = document.createElement("a");
+      link.download = "timetable.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UBC Auto Timetable</title>
+  <style>
+    :root {
+      --primary-color: #0078d7;
+      --background-color: #f8f9fa;
+      --card-bg: #fff;
+      --text-color: #222;
+      --border-color: #ddd;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 40px 50px;
+      text-align: center;
+      width: 90%;
+      max-width: 480px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    input[type="file"] {
+      border: 2px dashed var(--primary-color);
+      border-radius: 8px;
+      padding: 18px;
+      background-color: #f3f8ff;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      color: #444;
+      transition: all 0.2s ease-in-out;
+    }
+
+    input[type="file"]:hover {
+      background-color: #eaf3ff;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 24px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Upload your UBC Workday Schedule</h1>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="schedule" accept=".xlsx" required>
+      <button type="submit">Upload</button>
+    </form>
+    <footer>
+      <p>Supported format: .xlsx Workday schedule export</p>
+    </footer>
+  </div>
+</body>
+</html>
