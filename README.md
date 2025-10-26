@@ -26,3 +26,4 @@ Users can upload their `.xlsx` files, view their course schedules in a clean mod
 - HTML5 / CSS3 (modern responsive layout)
 
 ## Screenshots
+![homepage](screenshot.png)
